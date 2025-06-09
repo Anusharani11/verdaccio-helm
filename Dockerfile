@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM:-linux/amd64} node:21-alpine as builder
+FROM --platform=${BUILDPLATFORM:-linux/amd64} node:21-alpine AS builder
 
 ENV NODE_ENV=development \
     VERDACCIO_BUILD_REGISTRY=https://registry.npmjs.org
@@ -55,4 +55,5 @@ VOLUME /verdaccio/storage
 
 ENTRYPOINT ["uid_entrypoint"]
 
-CMD $VERDACCIO_APPDIR/packages/verdaccio/bin/verdaccio --config /verdaccio/conf/config.yaml --listen $VERDACCIO_PROTOCOL://0.0.0.0:$VERDACCIO_PORT
+CMD ["sh", "-c", "/opt/verdaccio/packages/verdaccio/bin/verdaccio --config /verdaccio/conf/config.yaml --listen ${VERDACCIO_PROTOCOL}://0.0.0.0:${VERDACCIO_PORT}"]
+
